@@ -4,20 +4,10 @@
     box-sizing: border-box;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: 'Oswald';
-}
+body {
+    margin: 2rem 10vw;
 
-.space-page {
-    margin: 60px 110px;
 }
-
 
 nav {
     --princial-color: #61787F;
@@ -27,7 +17,6 @@ nav {
     display: flex;
     align-items: center;
     background-color: var(--princial-color);
-    box-shadow: black 0px 0px 3px;
 }
 
 .logo-principal {
@@ -44,15 +33,17 @@ nav {
 
 .best-movie {
     font-size: 48px;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
 }
 
 .section-best-movie {
     display: flex;
-    border: black 6px solid;
+    border: 4px solid black
 }
 
 .section-movie h2 {
-    font-size: 48px;
     font-weight: lighter;
 }
 
@@ -70,20 +61,34 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.film-title {
+    font-size: 3rem;
+    font-weight: bold;
 }
 
 .info-best-movie p {
     font-size: 28px;
+    display: inline-block;
+    width: 70%;
+}
+
+.btn-res {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2rem;
 }
 
 .button-best-movie {
-    position: relative;
     color: white;
     background-color: red;
     border-radius: 25px;
     padding: 15px 30px;
-    width: 200px;
+    width: 120px;
 }
+
 
 .modal-container {
     display: none;
@@ -99,11 +104,13 @@ nav {
 
 .overlay {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    right: auto;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* CSS Modal START*/
 .modal {
     width: 95%;
     max-width: 500px;
@@ -126,11 +133,14 @@ nav {
     cursor: pointer;
 }
 
+/* CSS Modal END*/
+
 .article-with-image {
     position: relative;
     width: 100%;
     max-width: 600px;
-    /* Ajuste la taille de l'image selon tes besoins */
+    column-gap: 2px;
+
 }
 
 .article-with-image img {
@@ -139,11 +149,18 @@ nav {
     height: 247px;
 }
 
-.best-movies-list {
+.best-movies-list,
+.mystery-movies,
+.famille-movies,
+.comedie-movies {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: 46px;
-    row-gap: 12px;
+    row-gap: 1ch;
+    column-gap: 14vw;
+}
+
+.btn-hidden {
+    display: none
 }
 
 .overlay-list {
@@ -193,4 +210,91 @@ nav {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px
+}
+
+
+/* START RESPONSIVE MOBILE*/
+@media (max-width: 767px) {
+    .navigation-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .navigation-bar h1 {
+        display: none
+    }
+
+    .section-best-movie {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .btn-res {
+        display: flex;
+        justify-content: center;
+    }
+
+    .article-with-image {
+        display: grid;
+        grid-column: 1;
+    }
+
+    .best-movies-list {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .mobile {
+        display: none;
+    }
+
+    .btn-hidden {
+        display: block
+    }
+}
+
+/* RESPONSIVE TABLETTE */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .navigation-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .section-best-movie {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .btn-res {
+        display: flex;
+        justify-content: center;
+    }
+
+    .article-with-image {
+        display: grid;
+        grid-column: repeat(2, 1fr);
+    }
+
+    .best-movies-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tablet {
+        display: none;
+    }
+
+    .btn-hidden {
+        display: block
+    }
 }

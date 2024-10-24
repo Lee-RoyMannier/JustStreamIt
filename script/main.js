@@ -2,7 +2,7 @@ const bestFilms = "http://127.0.0.1:8000/api/v1/titles/?sort_by=-imdb_score"
 const movieById = "http://127.0.0.1:8000/api/v1/titles/"
 const genresUrl = `http://127.0.0.1:8000/api/v1/genres/`
 const genreMovieUrl = `http://127.0.0.1:8000/api/v1/titles/`
-
+const nbStraticCategory = 2
 
 const fetchUrl = async (url) => {
     try {
@@ -158,9 +158,11 @@ async function displayBestMovie() {
             <img src="${bestMovieAllTime.image_url}">
         </div>
         <div class="info-best-movie">
-            <h2>${bestMovieAllTime.title}</h2>
+            <h2 class="film-title">${bestMovieAllTime.title}</h2>
             <p>${movie.long_description}</p>
-            <button id="${idMovie}" class=" button-best-movie modal-trigger">Détails</button>
+            <div class="btn-res">
+            <button id="${idMovie}" class="button-best-movie modal-trigger">Détails</button>
+            </div>
         </div>
             `
     sectionBestMovie.innerHTML = data
@@ -189,10 +191,22 @@ async function createInputSelect(container) {
 
 async function createStaticCategories(dataMovies, sectionName) {
     const section = document.querySelector(`.${sectionName}`);
+
+    // Générer les articles avec classes conditionnelles
     for (let i = 1; i < dataMovies.length; i++) {
+        let extraClass = "";
+
+        if (i > 2) {
+            extraClass = "mobile";
+        }
+
+        if (i >= 5) {
+            extraClass += " tablet";
+        }
+
         const idMovie = dataMovies[i].id;
         let data = `
-            <article class="article-with-image">
+            <article class="article-with-image ${extraClass}">
                 <img src="${dataMovies[i].image_url}" alt="Movie image">
                 <div class="overlay-list">
                     <h2>${dataMovies[i].title}</h2>
@@ -200,10 +214,53 @@ async function createStaticCategories(dataMovies, sectionName) {
                 </div>
             </article>
         `;
+
         section.innerHTML += data;
     }
-    // Plus besoin d'appeler `modal(movieById)` ici car l'event delegation gère tout
+
+    let btnHidden = `
+        <button class="btn-hidden">Voir plus</button>
+    `;
+    section.innerHTML += btnHidden;
+
+    // Gestion du bouton "Voir plus"
+    document.querySelectorAll(".btn-hidden").forEach((btn) => {
+        let hiddenArticles;
+        btn.addEventListener("click", () => {
+            const section = btn.closest(`.${sectionName}`);
+            const isTablet = window.matchMedia("(min-width: 768px) and (max-width: 1024px)").matches;
+            const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
+            // Fonction pour gérer l'affichage des articles
+            const toggleArticles = (className, el) => {
+                let articles = section.querySelectorAll(`.article-with-image.${className}`);
+                if (articles.length === 0 && className === 'mobile') {
+                    articles = Array.from(section.querySelectorAll('.article-with-image')).slice(el);
+                } else if (articles.length === 0 && className === 'tablet') {
+                    articles = Array.from(section.querySelectorAll('.article-with-image')).slice(el);
+                }
+                articles.forEach(article => article.classList.toggle(className));
+                return articles;
+            };
+
+            // Gérer les articles mobiles
+            if (isMobile) {
+                hiddenArticles = toggleArticles('mobile', -4);
+            }
+            else if (isTablet) {
+                hiddenArticles = toggleArticles('tablet', -2);
+            }
+
+            // Gérer les articles tablettes uniquement si la taille correspond
+
+            // Mettre à jour le texte du bouton
+            btn.innerText = hiddenArticles.length > 0 && (!hiddenArticles[0].classList.contains('mobile') && !hiddenArticles[0].classList.contains('tablet'))
+                ? "Voir moins"
+                : "Voir plus";
+        });
+    });
 }
+
 
 async function createSectionCategory() {
     const category = ["all", "Mystery", "Family", "Comedy"]
@@ -245,7 +302,7 @@ async function createOtherCategory(nbSection) {
 
 displayBestMovie()
 createSectionCategory()
-createOtherCategory(2)
+createOtherCategory(nbStraticCategory)
 
 
 
