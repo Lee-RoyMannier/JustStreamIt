@@ -119,20 +119,31 @@ async function modal(category) {
             const id = event.target.id;
             const res = await fetchUrlwithID(category, id);
 
-            const content = `
+            const content = `<div class="modal-desc">
+            <div class="info">
+            <div class="title-info">
+                <h2>${res.title}</h2>
+                <p>${res.date_published} - ${res.genres}</p>
+                <p>${res.rated} - ${res.duration} minutes (${res.countries})</p>
+                <p>IMDB score: ${res.imdb_score}</p>
+            </div>
+                <div>
+                    <p>Réalisé par: <br>${res.directors}</p>
+                 </div>
+            </div>
+            <div>
                 <img class="section-best-movie" src="${res.image_url ?? ""}" alt="Movie image">
-                <p>Title: ${res.title}</p>
-                <p>Genre(s): ${res.genres}</p>
-                <p>Date published: ${res.date_published}</p>
-                <p>Rated: ${res.rated}</p>
-                <p>IMDB Score: ${res.imdb_score}</p>
-                <p>Director(s): ${res.directors}</p>
-                <p>Actors: ${res.actors}</p>
-                <p>Duration: ${res.duration} minutes</p>
-                <p>Country: ${res.countries}</p>
-                <p>World Box Office: ${(res.worldwide_gross_income) ? res.worldwide_gross_income : "Not available"}</p>
+            </div>
+            </div>
                 <p>Description: ${res.description}</p>
-                <button class="close-modal">Close</button>
+                <div>
+                <p>Avec: ${res.actors}</p>
+                <p>World Box Office: ${(res.worldwide_gross_income) ? res.worldwide_gross_income : "Not available"}</p>
+            </div>
+            <div class="btn-fermer">
+                <button class="close-modal">Fermer</button>
+            </div>
+
             `;
 
             infosModal.innerHTML = content;
@@ -192,7 +203,6 @@ async function createInputSelect(container) {
 async function createStaticCategories(dataMovies, sectionName) {
     const section = document.querySelector(`.${sectionName}`);
 
-    // Générer les articles avec classes conditionnelles
     for (let i = 1; i < dataMovies.length; i++) {
         let extraClass = "";
 
@@ -218,14 +228,13 @@ async function createStaticCategories(dataMovies, sectionName) {
         section.innerHTML += data;
     }
 
-    let btnHidden = `
-        <button class="btn-hidden">Voir plus</button>
-    `;
+    let btnHidden = `<div class="btn-display-movies"><button class="btn-hidden">Voir plus</button></div>`;
     section.innerHTML += btnHidden;
 
     // Gestion du bouton "Voir plus"
     document.querySelectorAll(".btn-hidden").forEach((btn) => {
         let hiddenArticles;
+        let classname = ""
         btn.addEventListener("click", () => {
             const section = btn.closest(`.${sectionName}`);
             const isTablet = window.matchMedia("(min-width: 768px) and (max-width: 1024px)").matches;
@@ -246,21 +255,19 @@ async function createStaticCategories(dataMovies, sectionName) {
             // Gérer les articles mobiles
             if (isMobile) {
                 hiddenArticles = toggleArticles('mobile', -4);
+                classname = "mobile"
             }
             else if (isTablet) {
                 hiddenArticles = toggleArticles('tablet', -2);
+                classname = "tablet"
             }
-
-            // Gérer les articles tablettes uniquement si la taille correspond
-
-            // Mettre à jour le texte du bouton
-            btn.innerText = hiddenArticles.length > 0 && (!hiddenArticles[0].classList.contains('mobile') && !hiddenArticles[0].classList.contains('tablet'))
+            console.log(hiddenArticles)
+            btn.innerText = hiddenArticles.length > 0 && (!hiddenArticles[0].classList.contains(classname))
                 ? "Voir moins"
                 : "Voir plus";
         });
     });
 }
-
 
 async function createSectionCategory() {
     const category = ["all", "Mystery", "Family", "Comedy"]

@@ -133,6 +133,29 @@ nav {
     cursor: pointer;
 }
 
+.modal-desc {
+    display: flex;
+    padding-bottom: 12px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.title-info {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.btn-fermer {
+    display: flex;
+    justify-content: center;
+}
+
 /* CSS Modal END*/
 
 .article-with-image {
@@ -183,9 +206,18 @@ nav {
     font-size: 24px;
 }
 
+.overlay-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-list button {
+    align-self: flex-end;
+}
+
 .btn-overlay {
-    background-color: #ff5722;
-    /* Couleur du bouton */
+    background-color: gray;
+    border-radius: 20px;
     border: none;
     padding: 10px 20px;
     color: white;
@@ -212,6 +244,11 @@ nav {
     gap: 20px
 }
 
+.genre-select {
+    height: 2rem;
+    width: 20%;
+
+}
 
 /* START RESPONSIVE MOBILE*/
 @media (max-width: 767px) {
@@ -234,6 +271,10 @@ nav {
         flex-direction: column;
     }
 
+    .section-movie {
+        text-align: center;
+    }
+
     .btn-res {
         display: flex;
         justify-content: center;
@@ -247,14 +288,43 @@ nav {
     .best-movies-list {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
+        margin-left: 10%
     }
 
     .mobile {
         display: none;
     }
 
+    .btn-display-movies {
+        display: flex;
+        justify-content: center;
+    }
+
     .btn-hidden {
-        display: block
+        display: block;
+        background-color: red;
+        border-radius: 20px;
+        padding: 0.5rem 2rem;
+        color: white
+    }
+
+    .modal-desc {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .modal {
+        width: 50%;
+        max-width: 500px;
+        padding: 30px;
+        min-width: 300px;
+        background-color: #fff;
+        border-radius: 10px;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-60%, -50%);
     }
 }
 
@@ -262,7 +332,6 @@ nav {
 @media (min-width: 768px) and (max-width: 1024px) {
     .navigation-bar {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
@@ -271,30 +340,71 @@ nav {
 
     .section-best-movie {
         display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
+        align-items: center;
+        /* Aligne le texte au centre de l'image verticalement */
+        gap: 20px;
+        /* Espace entre l'image et le texte */
+    }
+
+    .best-movie-container img {
+        max-width: 100%;
+        height: auto;
+        /* Ajuste automatiquement la hauteur pour garder le ratio */
+        width: 200px;
+        /* Définissez la largeur souhaitée pour l'image */
+    }
+
+    .info-best-movie {
+        max-width: 600px;
+        /* Limite la largeur de la section d'info pour un meilleur rendu */
     }
 
     .btn-res {
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
     }
 
-    .article-with-image {
-        display: grid;
-        grid-column: repeat(2, 1fr);
-    }
-
-    .best-movies-list {
+    .best-movies-list,
+    .mystery-movies,
+    .famille-movies,
+    .comedie-movies {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        column-gap: 1vw;
     }
 
     .tablet {
         display: none;
     }
 
+    .btn-display-movies {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
     .btn-hidden {
-        display: block
+        display: block;
+        background-color: red;
+        border-radius: 20px;
+        padding: 0.5rem 2rem;
+        color: white
+    }
+
+    .modal-desc {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .modal {
+        width: 50%;
+        max-width: 500px;
+        padding: 30px;
+        min-width: 300px;
+        background-color: #fff;
+        border-radius: 10px;
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-60%, -50%);
     }
 }
